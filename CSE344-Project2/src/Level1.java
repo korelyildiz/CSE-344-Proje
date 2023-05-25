@@ -15,7 +15,7 @@ public class Level1 extends JPanel {
     private int puan = 0;
     private int soruIndex = 0;
 
-  private String[] questions = {"Which species does a whale belong to?",
+  private String[] sorular = {"Which species does a whale belong to?",
         "Which mammal can fly?",
         "Which is the largest land animal?",
         "Which animal has no continent?",
@@ -26,7 +26,7 @@ public class Level1 extends JPanel {
         "Which is the longest living animal?",
         "Which is the largest mammal?"};
 
-private String[][] optionsList = {{"Invertebrate", "Reptile", "Bird", "Mammal"},
+private String[][] seceneklerListesi = {{"Invertebrate", "Reptile", "Bird", "Mammal"},
         {"Bat", "Dog", "Cat", "Bird"},
         {"Elephant", "Lion", "Rhinoceros", "Giraffe"},
         {"Dolphin", "Shark", "Kangaroo", "Crocodile"},
@@ -37,7 +37,7 @@ private String[][] optionsList = {{"Invertebrate", "Reptile", "Bird", "Mammal"},
         {"Jellyfish", "Sea Otter", "Galapagos Tortoise", "Parrot"},
         {"Kilimanjaro Spider", "Shark", "Tiger", "Blue Whale"}};
 
-private String[] correctAnswers = {"Mammal", "Bat", "Elephant", "Dolphin", "Turtle", "Bat", "Owl", "Cheetah",
+private String[] dogruCevaplar = {"Mammal", "Bat", "Elephant", "Dolphin", "Turtle", "Bat", "Owl", "Cheetah",
         "Galapagos Tortoise", "Blue Whale"};
 
 
