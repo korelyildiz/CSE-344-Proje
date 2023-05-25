@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Level1 extends JPanel {
-    private JLabel questionLabel;
+    public static boolean endgame = false;
+	
+	private JLabel questionLabel;
     private JButton[] options;
     private JLabel timerLabel;
     private JLabel scoreLabel;
@@ -76,17 +78,17 @@ public class Level1 extends JPanel {
 
         // Create the Timer Label
         timerLabel = new JLabel("30");
-        timerLabel.setBounds(550, 20, 50, 50);
+        timerLabel.setBounds(550, 20, 200, 50);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
         add(timerLabel);
 
         // Create the Next Question Button
         nextButton = new JButton("Next Question");
-        nextButton.setBounds(330, 420, 140, 40);
+        nextButton.setBounds(300, 420, 200, 40);
         nextButton.setFont(new Font("Arial", Font.BOLD, 16));
         nextButton.setVisible(false);
         add(nextButton);
-
+        
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,6 +97,7 @@ public class Level1 extends JPanel {
                     nextQuestion();
                 } else {
                     showResult();
+                    end(true);
                 }
             }
         });
@@ -162,9 +165,13 @@ public class Level1 extends JPanel {
 
     private void showResult() {
         JOptionPane.showMessageDialog(this, "Quiz Completed!\nTotal Score: " + score, "Result", JOptionPane.INFORMATION_MESSAGE);
-        System.exit(0);
+        
     }
 
+    private void end(boolean state) {
+    	endgame = state;
+    }
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Level1());
     }
