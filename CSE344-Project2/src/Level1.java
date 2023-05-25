@@ -15,23 +15,31 @@ public class Level1 extends JPanel {
     private int puan = 0;
     private int soruIndex = 0;
 
-    private String[] sorular = {"Balina hangi türe aittir?", "Uçabilen memeli hayvan hangisidir?",
-            "En büyük kara hayvanı hangisidir?", "Kıtası olmayan hayvan hangisidir?",
-            "Kuyruğunu kesebilen hayvan hangisidir?", "Zehirli bir memeli hayvan hangisidir?",
-            "Yüksek ses çıkaran hayvan hangisidir?", "En hızlı koşan hayvan hangisidir?",
-            "En uzun yaşayan hayvan hangisidir?", "En büyük memeli hayvan hangisidir?"};
-    private String[][] seceneklerListesi = {{"Omurgasız", "Sürüngen", "Kuş", "Memeli"},
-            {"Yarasa", "Köpek", "Kedi", "Kuş"},
-            {"Fil", "Aslan", "Gergedan", "Zürafa"},
-            {"Yunus", "Köpekbalığı", "Kanguru", "Timsah"},
-            {"Kaplumbağa", "Koala", "Panda", "Maymun"},
-            {"Penguen", "Yarasa", "Köpekbalığı", "Yılan"},
-            {"Baykuş", "Kartal", "Güvercin", "Tilki"},
-            {"Leopard", "At", "Çita", "Kurt"},
-            {"Denizanası", "Su Samuru", "Galapagos Kaplumbağası", "Papağan"},
-            {"Kilimanjaro Örümceği", "Köpekbalığı", "Kaplan", "Mavi Balina"}};
-    private String[] dogruCevaplar = {"Memeli", "Yarasa", "Fil", "Yunus", "Kaplumbağa", "Yarasa", "Baykuş", "Çita",
-            "Galapagos Kaplumbağası", "Mavi Balina"};
+  private String[] questions = {"Which species does a whale belong to?",
+        "Which mammal can fly?",
+        "Which is the largest land animal?",
+        "Which animal has no continent?",
+        "Which animal can cut off its tail?",
+        "Which mammal is poisonous?",
+        "Which animal makes loud noises?",
+        "Which is the fastest running animal?",
+        "Which is the longest living animal?",
+        "Which is the largest mammal?"};
+
+private String[][] optionsList = {{"Invertebrate", "Reptile", "Bird", "Mammal"},
+        {"Bat", "Dog", "Cat", "Bird"},
+        {"Elephant", "Lion", "Rhinoceros", "Giraffe"},
+        {"Dolphin", "Shark", "Kangaroo", "Crocodile"},
+        {"Turtle", "Koala", "Panda", "Monkey"},
+        {"Penguin", "Bat", "Shark", "Snake"},
+        {"Owl", "Eagle", "Pigeon", "Fox"},
+        {"Leopard", "Horse", "Cheetah", "Wolf"},
+        {"Jellyfish", "Sea Otter", "Galapagos Tortoise", "Parrot"},
+        {"Kilimanjaro Spider", "Shark", "Tiger", "Blue Whale"}};
+
+private String[] correctAnswers = {"Mammal", "Bat", "Elephant", "Dolphin", "Turtle", "Bat", "Owl", "Cheetah",
+        "Galapagos Tortoise", "Blue Whale"};
+
 
     public Level1() {
 
