@@ -16,7 +16,7 @@ public class Level1 extends JPanel {
     private int score = 0;
     private int questionIndex = 0;
 
-    private String[] questions = {"Which species does a whale belong to?",
+    private String[] Q = {"Which species does a whale belong to?",
             "Which mammal can fly?",
             "Which is the largest land animal?",
             "Which animal has no continent?",
@@ -26,8 +26,10 @@ public class Level1 extends JPanel {
             "Which is the fastest running animal?",
             "Which is the longest living animal?",
             "Which is the largest mammal?"};
+    
+    private String[] questions;
 
-    private String[][] optionsList = {{"Invertebrate", "Reptile", "Bird", "Mammal"},
+    private String[][] OL = {{"Invertebrate", "Reptile", "Bird", "Mammal"},
             {"Bat", "Dog", "Cat", "Bird"},
             {"Elephant", "Lion", "Rhinoceros", "Giraffe"},
             {"Dolphin", "Shark", "Kangaroo", "Crocodile"},
@@ -37,15 +39,26 @@ public class Level1 extends JPanel {
             {"Leopard", "Horse", "Cheetah", "Wolf"},
             {"Jellyfish", "Sea Otter", "Galapagos Tortoise", "Parrot"},
             {"Kilimanjaro Spider", "Shark", "Tiger", "Blue Whale"}};
+    
+    private String[][] optionsList;
 
-    private String[] correctAnswers = {"Mammal", "Bat", "Elephant", "Dolphin", "Turtle", "Bat", "Owl", "Cheetah",
+    private String[] CA = {"Mammal", "Bat", "Elephant", "Dolphin", "Turtle", "Bat", "Owl", "Cheetah",
             "Galapagos Tortoise", "Blue Whale"};
+    
+    private String[] correctAnswers;
 
     public Level1() {
+    	set_questions(Q,OL,CA);
+    	initializeComponents();
+        
+    }
+    
+    private void initializeComponents() {
+        setLayout(null);
 
         // Create the Question Label
         questionLabel = new JLabel(questions[questionIndex]);
-        questionLabel.setBounds(200, 50, 400, 50);
+        questionLabel.setBounds(100, 50, 600, 50);
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         questionLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(questionLabel);
@@ -59,15 +72,6 @@ public class Level1 extends JPanel {
             options[i].setForeground(Color.WHITE);
             options[i].setFont(new Font("Arial", Font.PLAIN, 18));
             add(options[i]);
-
-            options[i].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton option = (JButton) e.getSource();
-                    answer(option);
-                    timer.stop();
-                }
-            });
         }
 
         // Create the Score Label
@@ -88,7 +92,19 @@ public class Level1 extends JPanel {
         nextButton.setFont(new Font("Arial", Font.BOLD, 16));
         nextButton.setVisible(false);
         add(nextButton);
-        
+
+        // Set up action listeners for options and next button
+        for (int i = 0; i < options.length; i++) {
+            options[i].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JButton option = (JButton) e.getSource();
+                    answer(option);
+                    timer.stop();
+                }
+            });
+        }
+
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,11 +132,42 @@ public class Level1 extends JPanel {
                 }
             }
         });
+
+        setVisible(true);
+    }
+    
+    public void start() {
+    	score = 0;
+    	questionIndex = 0;
+    	timeRemaining = 30;
+    	
+    	questionLabel.setText(questions[questionIndex]);
+        add(questionLabel);
+
+
+        for (int i = 0; i < options.length; i++) {
+            options[i].setText(optionsList[questionIndex][i]);
+            options[i].setEnabled(true);
+            options[i].setBackground(new Color(120, 180, 220));
+            add(options[i]);
+        }
+
+        scoreLabel.setText("Score: 0");
+        add(scoreLabel);
+        
+        nextButton.setVisible(false);
+        add(nextButton);
+        
+        timerLabel.setText("30");
+        add(timerLabel);
+        
         timer.start();
 
         setVisible(true);
     }
-
+       
+    
+    
     private void answer(JButton option) {
         disableOptions();
 
@@ -128,7 +175,7 @@ public class Level1 extends JPanel {
             if (options[i] == option) {
                 if (option.getText().equals(correctAnswers[questionIndex])) {
                     option.setBackground(Color.GREEN);
-                    score += 10;
+                    score+=10;
                     scoreLabel.setText("Score: " + score);
                 } else {
                     option.setBackground(Color.RED);
@@ -170,6 +217,12 @@ public class Level1 extends JPanel {
 
     private void end(boolean state) {
     	endgame = state;
+    }
+    
+    public void set_questions(String[]Q,String[][]OL,String[]CA) {
+    	questions = Q;
+    	optionsList = OL;
+    	correctAnswers = CA;
     }
     
     public static void main(String[] args) {
