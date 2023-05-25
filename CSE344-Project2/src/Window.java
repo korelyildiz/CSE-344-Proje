@@ -2,7 +2,7 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Panel;
-
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -30,6 +30,7 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.Timer;
 
 
 public class Window extends JFrame {
@@ -43,6 +44,7 @@ public class Window extends JFrame {
 	private JTextField textField_1;
 	private JPasswordField passwordField_1;
 	private JTextField textField_2;
+	
 	
 
 	/**
@@ -157,17 +159,42 @@ public class Window extends JFrame {
 		layeredPane.add(Level1);
 		Level1.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Level 1");
-		btnNewButton.addActionListener(new ActionListener() {
+        JButton returnButtonL1 = new JButton("Return");
+        returnButtonL1.setBounds(300, 270, 200, 50);
+        returnButtonL1.setFont(new Font("Arial", Font.BOLD, 16));
+		returnButtonL1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
-				layeredPane.add(Level1);
+				layeredPane.add(UnauthorizedMenu);
 				layeredPane.repaint();
 				layeredPane.revalidate();
 			}
 		});
-		btnNewButton.setBounds(74, 71, 134, 50);
-		UnauthorizedMenu.add(btnNewButton);
+        
+		Timer timer = new Timer(500, new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if(Level1.endgame) {
+					layeredPane.removeAll();
+					layeredPane.add(UnauthorizedMenu);
+					layeredPane.repaint();
+					layeredPane.revalidate();
+				}
+			}
+		});
+		
+		JButton ChooseLevel1 = new JButton("Level 1");
+		ChooseLevel1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timer.stop();
+				layeredPane.removeAll();
+				layeredPane.add(Level1);
+				layeredPane.repaint();
+				layeredPane.revalidate();
+				timer.start();
+			}
+		});
+		ChooseLevel1.setBounds(74, 71, 134, 50);
+		UnauthorizedMenu.add(ChooseLevel1);
 		
 		JPanel Shop = new JPanel();
 		layeredPane.add(Shop);
