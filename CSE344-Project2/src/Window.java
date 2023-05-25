@@ -153,11 +153,15 @@ public class Window extends JFrame {
 		layeredPane.add(UnauthorizedMenu);
 		UnauthorizedMenu.setLayout(null);
 		
+		Level1 Level1 = new Level1();
+		layeredPane.add(Level1);
+		Level1.setLayout(null);
+		
 		JButton btnNewButton = new JButton("Level 1");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
-				layeredPane.add(AuthorizedMenu);
+				layeredPane.add(Level1);
 				layeredPane.repaint();
 				layeredPane.revalidate();
 			}
@@ -314,7 +318,7 @@ public class Window extends JFrame {
 		BindButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
-				layeredPane.add(AuthorizedMenu);
+				layeredPane.add(UnauthorizedMenu);
 				layeredPane.repaint();
 				layeredPane.revalidate();
 			}
@@ -452,8 +456,7 @@ public class Window extends JFrame {
 		LoginCheckBox.setBounds(162, 309, 154, 21);
 		Login.add(LoginCheckBox);
 		
-		JPanel Level1 = new JPanel();
-		layeredPane.add(Level1, "name_10248125646224");
+		
 		
 		
 		
