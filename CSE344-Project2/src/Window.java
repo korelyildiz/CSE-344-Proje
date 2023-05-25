@@ -159,25 +159,26 @@ public class Window extends JFrame {
 		layeredPane.add(Level1);
 		Level1.setLayout(null);
 		
-        JButton returnButtonL1 = new JButton("Return");
-        returnButtonL1.setBounds(300, 270, 200, 50);
-        returnButtonL1.setFont(new Font("Arial", Font.BOLD, 16));
-		returnButtonL1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				layeredPane.removeAll();
-				layeredPane.add(UnauthorizedMenu);
-				layeredPane.repaint();
-				layeredPane.revalidate();
-			}
-		});
+        Level2 Level2 = new Level2();
+        layeredPane.add(Level2);
+		Level1.setLayout(null);
+		
+		Level3 Level3 = new Level3();
+        layeredPane.add(Level3);
+		Level1.setLayout(null);
         
 		Timer timer = new Timer(500, new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if(Level1.endgame) {
+				if(Level1.endgame || Level2.endgame || Level3.endgame) {
 					layeredPane.removeAll();
 					layeredPane.add(UnauthorizedMenu);
 					layeredPane.repaint();
 					layeredPane.revalidate();
+					Level1.endgame = false;
+					Level1.removeAll();
+					Level1.repaint();
+					Level1.revalidate();
+					
 				}
 			}
 		});
@@ -188,13 +189,44 @@ public class Window extends JFrame {
 				timer.stop();
 				layeredPane.removeAll();
 				layeredPane.add(Level1);
+				Level1.start();
 				layeredPane.repaint();
 				layeredPane.revalidate();
 				timer.start();
 			}
 		});
-		ChooseLevel1.setBounds(74, 71, 134, 50);
+		ChooseLevel1.setBounds(95, 220, 134, 50);
 		UnauthorizedMenu.add(ChooseLevel1);
+		
+		JButton ChooseLevel2 = new JButton("Level 2");
+		ChooseLevel2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timer.stop();
+				layeredPane.removeAll();
+				layeredPane.add(Level2);
+				Level2.start();
+				layeredPane.repaint();
+				layeredPane.revalidate();
+				timer.start();
+			}
+		});
+		ChooseLevel2.setBounds(337, 220, 134, 50);
+		UnauthorizedMenu.add(ChooseLevel2);
+		
+		JButton ChooseLevel3 = new JButton("Level 3");
+		ChooseLevel3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timer.stop();
+				layeredPane.removeAll();
+				layeredPane.add(Level3);
+				Level3.start();
+				layeredPane.repaint();
+				layeredPane.revalidate();
+				timer.start();
+			}
+		});
+		ChooseLevel3.setBounds(571, 220, 134, 50);
+		UnauthorizedMenu.add(ChooseLevel3);
 		
 		JPanel Shop = new JPanel();
 		layeredPane.add(Shop);
