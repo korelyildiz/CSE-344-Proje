@@ -44,28 +44,10 @@ public class Window extends JFrame {
 	private JTextField textField_1;
 	private JPasswordField passwordField_1;
 	private JTextField textField_2;
+	private data myData = new data();
 	
+	private String userType;
 	
-
-	/**
-	 * Launch the application.
-	 */
-	/**public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Window frame = new Window();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}**/
-
-	/**
-	 * Create the frame.
-	 */
 	public Window() {
 		setTitle("Group6_CSE344");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,17 +117,35 @@ public class Window extends JFrame {
 		UnauthorizedRadioButton.setBounds(417, 309, 142, 27);
 		Register.add(UnauthorizedRadioButton);
 		
+		JLabel FailedRegister = new JLabel("A user with that name already exists. Try again.");
+		FailedRegister.setForeground(Color.RED);
+		FailedRegister.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		FailedRegister.setBounds(157, 50, 465, 27);
+		Register.add(FailedRegister);
+		FailedRegister.setVisible(false);
+		
 		JButton RegButton = new JButton("Register");
 		RegButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				layeredPane.removeAll();
-				layeredPane.add(panel_1);
-				layeredPane.repaint();
-				layeredPane.revalidate();
+				if(AuthorizedRadioButton.isEnabled()) {
+					myData.register(textField.getText(), passwordField.getSelectedText(),AuthorizedRadioButton.getText());
+				}else if(UnauthorizedRadioButton.isEnabled()) {
+					myData.register(textField.getText(), passwordField.getSelectedText(),UnauthorizedRadioButton.getText());
+				}
+				if(myData.registerCorrect == false) {
+					FailedRegister.setVisible(true);
+				}else {
+					layeredPane.removeAll();
+					layeredPane.add(panel_1);
+					layeredPane.repaint();
+					layeredPane.revalidate();
+				}
 			}
 		});
 		RegButton.setBounds(310, 379, 142, 34);
 		Register.add(RegButton);
+		
+		
 		
 		JPanel AuthorizedMenu = new JPanel();
 		layeredPane.add(AuthorizedMenu);
@@ -275,7 +275,7 @@ public class Window extends JFrame {
 		Category.setLayout(null);
 		
 		JButton cat5_7Button = new JButton("Change Category");
-		cat5_7Button.setBounds(70, 297, 167, 58);
+		cat5_7Button.setBounds(57, 297, 167, 58);
 		Category.add(cat5_7Button);
 		
 		JButton cat7_9Button = new JButton("Change Category");
@@ -299,7 +299,7 @@ public class Window extends JFrame {
 		Category.add(catreturnButton);
 		
 		JLabel lblNewLabel_2 = new JLabel("A Picture and The age will be here");
-		lblNewLabel_2.setBounds(40, 79, 197, 177);
+		lblNewLabel_2.setBounds(46, 79, 197, 177);
 		Category.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("A Picture and The age will be here");
@@ -484,10 +484,19 @@ public class Window extends JFrame {
 		JButton LoginButton = new JButton("Login");
 		LoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				layeredPane.removeAll();
-				layeredPane.add(BindAccount);
-				layeredPane.repaint();
-				layeredPane.revalidate();
+				userType = null;
+				userType = myData.login(textUsername.getText(), textPassword.getSelectedText());
+				if(userType.contentEquals("Authorized User")) {
+					layeredPane.removeAll();
+					layeredPane.add(BindAccount);
+					layeredPane.repaint();
+					layeredPane.revalidate();
+				}else if(userType.contentEquals("Unauthorized User")) {
+					layeredPane.removeAll();
+					layeredPane.add(UnauthorizedMenu);
+					layeredPane.repaint();
+					layeredPane.revalidate();
+				}
 			}
 		});
 		LoginButton.setBounds(323, 358, 154, 46);
