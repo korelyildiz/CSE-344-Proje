@@ -1,1 +1,117 @@
 
+import java.sql.*;
+import java.util.Scanner;
+
+public class BindClass {
+    public static void main(String[] args) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            // SQLite veritabanı sürücüsü yüklendi
+
+            // Veritabanı bağlantısı yapma veya diğer işlemler devam eder...
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            // Sürücü yüklenirken bir hata oluştu
+        }
+        try {
+            // Veritabanı bağlantısı oluşturma
+            connection = DriverManager.getConnection("jdbc:sqlite:mydatabase.db");
+
+            // Kullanıcıdan giriş bilgilerini alma
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Kullanıcı adı: ");
+            String username = scanner.nextLine();
+            System.out.print("Şifre: ");
+            String password = scanner.nextLine();
+
+            // Kullanıcıyı veritabanında arama
+            String selectQuery = "SELECT * FROM users WHERE username = ? AND password = ?";
+            preparedStatement = connection.prepareStatement(selectQuery);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+
+            // Sonuçları kontrol etme
+            if (resultSet.next()) {
+                String userType = resultSet.getString("usertype");
+                if ("Authorized".equals(userType)) {
+                    AuthorizedUser authorizedUser = new AuthorizedUser(username, password);
+                    authorizedUser.bind(connection);
+                } else {
+                    UnauthorizedUser unauthorizedUser = new UnauthorizedUser(username, password);
+                    unauthorizedUser.bind(connection);
+                }
+            } else {
+                System.out.println("Giriş başarısız! Kullanıcı adı veya şifre hatalı.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Kaynakları serbest bırakma
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+class AuthorizedUser {
+    private String username;
+    private String password;
+
+    public AuthorizedUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public void bind(Connection connection) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Bağlamak istediğiniz kullanıcı adı: ");
+        String bindUsername = scanner.nextLine();
+        System.out.print("Bağlamak istediğiniz kullanıcı şifresi: ");
+        String bindPassword = scanner.nextLine();
+
+        try {
+            // Kullanıcının bağlanmak istediği hesabı veritabanında güncelleme
+            String updateQuery = "UPDATE users SET authorized_username = ?, authorized_password = ? WHERE username = ?";
+            PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+            updateStatement.setString(1, bindUsername);
+            updateStatement.setString(2, bindPassword);
+            updateStatement.setString(3, username);
+            updateStatement.executeUpdate();
+
+            System.out.println("Hesaplar başarıyla bağlandı!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class UnauthorizedUser {
+    private String username;
+    private String password;
+
+    public UnauthorizedUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public void bind(Connection connection) {
+        System.out.println("Yetkilendirilmemiş kullanıcı bağlandı.");
+        // Yetkilendirilmemiş kullanıcıya özgü işlemler burada gerçekleştirilebilir.
+    }
+}
