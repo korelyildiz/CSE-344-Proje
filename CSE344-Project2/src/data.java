@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class data {
     
 	public boolean registerCorrect = true;
+	public String userType = "";
 	
 	private Connection connection = null;
     private PreparedStatement preparedStatement = null;
@@ -30,8 +31,6 @@ public class data {
             String createTableQuery = "CREATE TABLE IF NOT EXISTS user (username TEXT, password TEXT, usertype TEXT)";
             statement.execute(createTableQuery);
 
-
-            System.out.println("Kayıt başarıyla tamamlandı!");
         } catch (SQLException e) {
             e.printStackTrace();
         } 
@@ -59,6 +58,7 @@ public class data {
             	preparedStatement.setString(3, userType);
             	preparedStatement.executeUpdate();
             	registerCorrect = true;
+            	System.out.println("Kayıt başarılı!");
             }
             
 		} catch (SQLException e) { 
@@ -66,9 +66,7 @@ public class data {
         } 
 	}
 	
-	public String login(String username,String password) {
-		
-		String userType = null;
+	public void login(String username,String password) {
 		
 		try {
 			String selectQuery = "SELECT * FROM user WHERE username = ? AND password = ?";
@@ -79,14 +77,15 @@ public class data {
 
             // Sonuçları kontrol etme
             if (resultSet.next()) {
-                userType = resultSet.getString("usertype");    
+                userType = resultSet.getString("usertype"); 
             } else {
                 System.out.println("Giriş başarısız! Kullanıcı adı veya şifre hatalı.");
             }
+            
 		}catch (SQLException e) {
             e.printStackTrace();
         }
-		return userType;
+
 	}
 
 	public void close() {
