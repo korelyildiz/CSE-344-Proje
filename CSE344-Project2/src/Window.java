@@ -46,7 +46,7 @@ public class Window extends JFrame {
 	private JTextField textField_2;
 	private data myData = new data();
 	
-	private String userType;
+	private String userType = "";
 	
 	public Window() {
 		setTitle("Group6_CSE344");
@@ -127,11 +127,11 @@ public class Window extends JFrame {
 		JButton RegButton = new JButton("Register");
 		RegButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(AuthorizedRadioButton.isEnabled()) {
+				//if(AuthorizedRadioButton.isEnabled()) {
 					myData.register(textField.getText(), passwordField.getSelectedText(),AuthorizedRadioButton.getText());
-				}else if(UnauthorizedRadioButton.isEnabled()) {
-					myData.register(textField.getText(), passwordField.getSelectedText(),UnauthorizedRadioButton.getText());
-				}
+				//}else if(UnauthorizedRadioButton.isEnabled()) {
+					//myData.register(textField.getText(), passwordField.getSelectedText(),UnauthorizedRadioButton.getText());
+				//}
 				if(myData.registerCorrect == false) {
 					FailedRegister.setVisible(true);
 				}else {
@@ -484,8 +484,8 @@ public class Window extends JFrame {
 		JButton LoginButton = new JButton("Login");
 		LoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				userType = null;
-				userType = myData.login(textUsername.getText(), textPassword.getSelectedText());
+				myData.login(textUsername.getText(), textPassword.getSelectedText());
+				userType = myData.userType;
 				if(userType.contentEquals("Authorized User")) {
 					layeredPane.removeAll();
 					layeredPane.add(BindAccount);
