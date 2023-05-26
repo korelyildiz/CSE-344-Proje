@@ -1,11 +1,17 @@
-
 import java.sql.*;
 import java.util.Scanner;
 
 public class data {
-    public static void main(String[] args) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    
+	public boolean registerCorrect = true;
+	
+	private Connection connection = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
+    
+    
+	public data() {
+        
         try {
             Class.forName("org.sqlite.JDBC");
             // SQLite veritabanı sürücüsü yüklendi
@@ -24,38 +30,80 @@ public class data {
             String createTableQuery = "CREATE TABLE IF NOT EXISTS user (username TEXT, password TEXT, usertype TEXT)";
             statement.execute(createTableQuery);
 
-            // Kullanıcıdan giriş bilgilerini alma
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Kullanıcı adı: ");
-            String username = scanner.nextLine();
-            System.out.print("Şifre: ");
-            String password = scanner.nextLine();
-            System.out.print("Kullanıcı tipi: ");
-            String userType = scanner.nextLine();
-
-            // Kullanıcıyı veritabanına ekleme
-            String insertQuery = "INSERT INTO user (username, password, usertype) VALUES (?, ?, ?)";
-            preparedStatement = connection.prepareStatement(insertQuery);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, userType);
-            preparedStatement.executeUpdate();
 
             System.out.println("Kayıt başarıyla tamamlandı!");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Kaynakları serbest bırakma
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        } 
     }
+	
+	public void register(String username,String password,String userType) {
+		
+		try {
+			
+			String selectQuery = "SELECT * FROM user WHERE username = ? AND password = ?";
+            preparedStatement = connection.prepareStatement(selectQuery);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+
+            // Sonuçları kontrol etme
+            if (resultSet.next()) {
+                registerCorrect = false;
+            } else {
+            	// Kullanıcıyı veritabanına ekleme
+            	String insertQuery = "INSERT INTO user (username, password, usertype) VALUES (?, ?, ?)";
+            	preparedStatement = connection.prepareStatement(insertQuery);
+            	preparedStatement.setString(1, username);
+            	preparedStatement.setString(2, password);
+            	preparedStatement.setString(3, userType);
+            	preparedStatement.executeUpdate();
+            	registerCorrect = true;
+            }
+            
+		} catch (SQLException e) { 
+            e.printStackTrace();
+        } 
+	}
+	
+	public String login(String username,String password) {
+		
+		String userType = null;
+		
+		try {
+			String selectQuery = "SELECT * FROM user WHERE username = ? AND password = ?";
+            preparedStatement = connection.prepareStatement(selectQuery);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+
+            // Sonuçları kontrol etme
+            if (resultSet.next()) {
+                userType = resultSet.getString("usertype");    
+            } else {
+                System.out.println("Giriş başarısız! Kullanıcı adı veya şifre hatalı.");
+            }
+		}catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return userType;
+	}
+
+	public void close() {
+		
+		try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		
+	}
 }
