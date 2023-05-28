@@ -15,6 +15,7 @@ public class BindClass {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             // Sürücü yüklenirken bir hata oluştu
+            
         }
         try {
             // Veritabanı bağlantısı oluşturma
