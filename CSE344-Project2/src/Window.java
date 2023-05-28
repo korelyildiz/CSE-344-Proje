@@ -127,11 +127,13 @@ public class Window extends JFrame {
 		JButton RegButton = new JButton("Register");
 		RegButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//if(AuthorizedRadioButton.isEnabled()) {
-					myData.register(textField.getText(), passwordField.getSelectedText(),AuthorizedRadioButton.getText());
-				//}else if(UnauthorizedRadioButton.isEnabled()) {
-					//myData.register(textField.getText(), passwordField.getSelectedText(),UnauthorizedRadioButton.getText());
-				//}
+				if(AuthorizedRadioButton.isSelected()) {
+					String str = new String(passwordField.getPassword());
+					myData.register(textField.getText(), str, AuthorizedRadioButton.getText());
+				}else if(UnauthorizedRadioButton.isSelected()) {
+					String str = new String(passwordField.getPassword());
+					myData.register(textField.getText(), str,UnauthorizedRadioButton.getText());
+				}
 				if(myData.registerCorrect == false) {
 					FailedRegister.setVisible(true);
 				}else {
@@ -145,6 +147,19 @@ public class Window extends JFrame {
 		RegButton.setBounds(310, 379, 142, 34);
 		Register.add(RegButton);
 		
+		JButton RegretButton = new JButton("Return");
+		RegretButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FailedRegister.setVisible(false);
+				layeredPane.removeAll();
+				layeredPane.add(panel_1);
+				layeredPane.repaint();
+				layeredPane.revalidate();
+			}
+		});
+		RegretButton.setBounds(22, 457, 132, 34);
+		Register.add(RegretButton);
+		
 		
 		
 		JPanel AuthorizedMenu = new JPanel();
@@ -154,6 +169,7 @@ public class Window extends JFrame {
 		JPanel UnauthorizedMenu = new JPanel();
 		layeredPane.add(UnauthorizedMenu);
 		UnauthorizedMenu.setLayout(null);
+		
 		
 		Level1 Level1 = new Level1();
 		layeredPane.add(Level1);
@@ -227,6 +243,19 @@ public class Window extends JFrame {
 		});
 		ChooseLevel3.setBounds(571, 220, 134, 50);
 		UnauthorizedMenu.add(ChooseLevel3);
+		
+		JButton unautretButton = new JButton("Log out");
+		unautretButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myData.logout();
+				layeredPane.removeAll();
+				layeredPane.add(panel_1);
+				layeredPane.repaint();
+				layeredPane.revalidate();
+			}
+		});
+		unautretButton.setBounds(337, 366, 134, 54);
+		UnauthorizedMenu.add(unautretButton);
 		
 		JPanel Shop = new JPanel();
 		layeredPane.add(Shop);
@@ -363,6 +392,7 @@ public class Window extends JFrame {
 		JButton autretButton = new JButton("Log out");
 		autretButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				myData.logout();
 				layeredPane.removeAll();
 				layeredPane.add(panel_1);
 				layeredPane.repaint();
@@ -377,7 +407,7 @@ public class Window extends JFrame {
 		BindButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
-				layeredPane.add(UnauthorizedMenu);
+				layeredPane.add(AuthorizedMenu);
 				layeredPane.repaint();
 				layeredPane.revalidate();
 			}
@@ -484,7 +514,8 @@ public class Window extends JFrame {
 		JButton LoginButton = new JButton("Login");
 		LoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				myData.login(textUsername.getText(), textPassword.getSelectedText());
+				String str = new String(textPassword.getPassword());
+				myData.login(textUsername.getText(), str);
 				userType = myData.userType;
 				if(userType.contentEquals("Authorized User")) {
 					layeredPane.removeAll();
