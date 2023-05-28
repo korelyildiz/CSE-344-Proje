@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class data {
     
-	public boolean registerCorrect = true;
+	public boolean registerCorrect = false;
 	public String userType = "";
 	
 	private Connection connection = null;
@@ -87,7 +87,12 @@ public class data {
         }
 
 	}
-
+	
+	public void logout() {
+		userType = "";
+		registerCorrect = false;
+	}
+	
 	public void close() {
 		
 		try {
