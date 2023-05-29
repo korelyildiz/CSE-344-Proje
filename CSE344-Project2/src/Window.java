@@ -197,6 +197,30 @@ public class Window extends JFrame {
 		Level3 Level3 = new Level3();
         layeredPane.add(Level3);
 		Level1.setLayout(null);
+		
+		Level1_2 Level1_2 = new Level1_2();
+		layeredPane.add(Level1_2);
+		Level1.setLayout(null);
+		
+        Level2_2 Level2_2 = new Level2_2();
+        layeredPane.add(Level2_2);
+		Level1.setLayout(null);
+		
+		Level3_2 Level3_2 = new Level3_2();
+        layeredPane.add(Level3_2);
+		Level1.setLayout(null);
+		
+		Level1_3 Level1_3 = new Level1_3();
+		layeredPane.add(Level1_3);
+		Level1.setLayout(null);
+		
+        Level2_3 Level2_3 = new Level2_3();
+        layeredPane.add(Level2_3);
+		Level1.setLayout(null);
+		
+		Level3_3 Level3_3 = new Level3_3();
+        layeredPane.add(Level3_3);
+		Level1.setLayout(null);
         
 		Timer timer = new Timer(500, new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -223,26 +247,89 @@ public class Window extends JFrame {
 						Level1.repaint();
 						Level1.revalidate();
 					}
-					
+					layeredPane.removeAll();
+					layeredPane.add(UnauthorizedMenu);
+					layeredPane.repaint();
+					layeredPane.revalidate();				
+				}else if(Level1_2.endgame || Level2_2.endgame || Level3_2.endgame) {
+					if(Level2_2.endgame) {
+						scoreLevel2 = Level2_2.getScore();
+						myData.setScore(myData.userName,myData.Category,2, scoreLevel2);
+						Level2_2.endgame = false;
+						Level2_2.removeAll();
+						Level2_2.repaint();
+						Level2_2.revalidate();
+					}else if(Level3_2.endgame) {
+						scoreLevel3 = Level3_2.getScore();
+						myData.setScore(myData.userName,myData.Category,3, scoreLevel3);
+						Level3_2.endgame = false;
+						Level3_2.removeAll();
+						Level3_2.repaint();
+						Level3_2.revalidate();
+					}else if(Level1_2.endgame) {
+						scoreLevel1 = Level1_2.getScore();
+						myData.setScore(myData.userName,myData.Category,1, scoreLevel1);
+						Level1_2.endgame = false;
+						Level1_2.removeAll();
+						Level1_2.repaint();
+						Level1_2.revalidate();
+					}
 					layeredPane.removeAll();
 					layeredPane.add(UnauthorizedMenu);
 					layeredPane.repaint();
 					layeredPane.revalidate();
-					
-					
-					
-					
+				}else if(Level1_3.endgame || Level2_3.endgame || Level3_3.endgame) {
+						if(Level2_3.endgame) {
+							scoreLevel2 = Level2_3.getScore();
+							myData.setScore(myData.userName,myData.Category,2, scoreLevel2);
+							Level2_3.endgame = false;
+							Level2_3.removeAll();
+							Level2_3.repaint();
+							Level2_3.revalidate();
+						}else if(Level3_3.endgame) {
+							scoreLevel3 = Level3_3.getScore();
+							myData.setScore(myData.userName,myData.Category,3, scoreLevel3);
+							Level3_3.endgame = false;
+							Level3_3.removeAll();
+							Level3_3.repaint();
+							Level3_3.revalidate();
+						}else if(Level1_3.endgame) {
+							scoreLevel1 = Level1_3.getScore();
+							myData.setScore(myData.userName,myData.Category,1, scoreLevel1);
+							Level1_3.endgame = false;
+							Level1_3.removeAll();
+							Level1_3.repaint();
+							Level1_3.revalidate();
+						}
+						layeredPane.removeAll();
+						layeredPane.add(UnauthorizedMenu);
+						layeredPane.repaint();
+						layeredPane.revalidate();				
 				}
+				
+				
 			}
 		});
 		
 		JButton ChooseLevel1 = new JButton("Level 1");
 		ChooseLevel1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(myData.Category.contentEquals("2")) {
-					
-				}else if(myData.Category.contentEquals("3")) {
-					
+				if(myData.Category.equals("2")) {
+					timer.stop();
+					layeredPane.removeAll();
+					layeredPane.add(Level1_2);
+					Level1_2.start();
+					layeredPane.repaint();
+					layeredPane.revalidate();
+					timer.start();
+				}else if(myData.Category.equals("3")) {
+					timer.stop();
+					layeredPane.removeAll();
+					layeredPane.add(Level1_3);
+					Level1_3.start();
+					layeredPane.repaint();
+					layeredPane.revalidate();
+					timer.start();
 				}else {
 					timer.stop();
 					layeredPane.removeAll();
@@ -261,9 +348,21 @@ public class Window extends JFrame {
 		ChooseLevel2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(myData.Category.contentEquals("2")) {
-					
+					timer.stop();
+					layeredPane.removeAll();
+					layeredPane.add(Level2_2);
+					Level2_2.start();
+					layeredPane.repaint();
+					layeredPane.revalidate();
+					timer.start();
 				}else if(myData.Category.contentEquals("3")) {
-					
+					timer.stop();
+					layeredPane.removeAll();
+					layeredPane.add(Level2_3);
+					Level2_3.start();
+					layeredPane.repaint();
+					layeredPane.revalidate();
+					timer.start();
 				}else {
 					timer.stop();
 					layeredPane.removeAll();
@@ -282,9 +381,21 @@ public class Window extends JFrame {
 		ChooseLevel3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(myData.Category.contentEquals("2")) {
-					
+					timer.stop();
+					layeredPane.removeAll();
+					layeredPane.add(Level3_2);
+					Level3_2.start();
+					layeredPane.repaint();
+					layeredPane.revalidate();
+					timer.start();
 				}else if(myData.Category.contentEquals("3")) {
-					
+					timer.stop();
+					layeredPane.removeAll();
+					layeredPane.add(Level3_3);
+					Level3_3.start();
+					layeredPane.repaint();
+					layeredPane.revalidate();
+					timer.start();
 				}else {
 					timer.stop();
 					layeredPane.removeAll();
@@ -369,7 +480,7 @@ public class Window extends JFrame {
 		JLabel lblNewLabel_6_1 = new JLabel("Category 7-9");
 		lblNewLabel_6_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_6_1.setFont(new Font("Times New Roman", Font.BOLD, 16));
-		lblNewLabel_6_1.setBounds(323, 101, 148, 31);
+		lblNewLabel_6_1.setBounds(327, 101, 148, 31);
 		Progress.add(lblNewLabel_6_1);
 		
 		JLabel lblNewLabel_6_2 = new JLabel("Category 9-12");
@@ -380,47 +491,47 @@ public class Window extends JFrame {
 		
 		JLabel lblNewLabel_7 = new JLabel("Level 1:");
 		lblNewLabel_7.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7.setBounds(113, 142, 155, 31);
+		lblNewLabel_7.setBounds(135, 142, 155, 31);
 		Progress.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_7_1 = new JLabel("Level 2:");
 		lblNewLabel_7_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_1.setBounds(113, 183, 155, 31);
+		lblNewLabel_7_1.setBounds(135, 183, 155, 31);
 		Progress.add(lblNewLabel_7_1);
 		
 		JLabel lblNewLabel_7_2 = new JLabel("Level 3:");
 		lblNewLabel_7_2.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_2.setBounds(113, 224, 155, 31);
+		lblNewLabel_7_2.setBounds(135, 224, 155, 31);
 		Progress.add(lblNewLabel_7_2);
 		
 		JLabel lblNewLabel_7_3 = new JLabel("Level 1:");
 		lblNewLabel_7_3.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_3.setBounds(327, 142, 155, 31);
+		lblNewLabel_7_3.setBounds(361, 142, 155, 31);
 		Progress.add(lblNewLabel_7_3);
 		
 		JLabel lblNewLabel_7_4 = new JLabel("Level 2:");
 		lblNewLabel_7_4.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_4.setBounds(327, 183, 155, 31);
+		lblNewLabel_7_4.setBounds(361, 183, 155, 31);
 		Progress.add(lblNewLabel_7_4);
 		
 		JLabel lblNewLabel_7_5 = new JLabel("Level 3:");
 		lblNewLabel_7_5.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_5.setBounds(327, 224, 155, 31);
+		lblNewLabel_7_5.setBounds(361, 224, 155, 31);
 		Progress.add(lblNewLabel_7_5);
 		
 		JLabel lblNewLabel_7_6 = new JLabel("Level 1:");
 		lblNewLabel_7_6.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_6.setBounds(577, 142, 155, 31);
+		lblNewLabel_7_6.setBounds(605, 142, 148, 31);
 		Progress.add(lblNewLabel_7_6);
 		
 		JLabel lblNewLabel_7_7 = new JLabel("Level 2:");
 		lblNewLabel_7_7.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_7.setBounds(577, 183, 155, 31);
+		lblNewLabel_7_7.setBounds(605, 183, 155, 31);
 		Progress.add(lblNewLabel_7_7);
 		
 		JLabel lblNewLabel_7_8 = new JLabel("Level 3:");
 		lblNewLabel_7_8.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_7_8.setBounds(577, 224, 155, 31);
+		lblNewLabel_7_8.setBounds(605, 224, 155, 31);
 		Progress.add(lblNewLabel_7_8);
 		
 		JPanel Category = new JPanel();
@@ -519,11 +630,11 @@ public class Window extends JFrame {
 				lblNewLabel_7.setText("Level 1: "+myData.getScore(selectedUser,"1",1));
 				lblNewLabel_7_1.setText("Level 2: "+myData.getScore(selectedUser,"1",2));
 				lblNewLabel_7_2.setText("Level 3: "+myData.getScore(selectedUser,"1",3));
-				lblNewLabel_7_3.setText("Level 3: "+myData.getScore(selectedUser,"2",1));
-				lblNewLabel_7_4.setText("Level 3: "+myData.getScore(selectedUser,"2",2));
+				lblNewLabel_7_3.setText("Level 1: "+myData.getScore(selectedUser,"2",1));
+				lblNewLabel_7_4.setText("Level 2: "+myData.getScore(selectedUser,"2",2));
 				lblNewLabel_7_5.setText("Level 3: "+myData.getScore(selectedUser,"2",3));
-				lblNewLabel_7_6.setText("Level 3: "+myData.getScore(selectedUser,"3",1));
-				lblNewLabel_7_7.setText("Level 3: "+myData.getScore(selectedUser,"3",2));
+				lblNewLabel_7_6.setText("Level 1: "+myData.getScore(selectedUser,"3",1));
+				lblNewLabel_7_7.setText("Level 2: "+myData.getScore(selectedUser,"3",2));
 				lblNewLabel_7_8.setText("Level 3: "+myData.getScore(selectedUser,"3",3));	
 				
 				layeredPane.removeAll();
